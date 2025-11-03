@@ -1,22 +1,6 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { AiFillHome, AiFillPlayCircle, AiOutlineFire } from "react-icons/ai";
-import { MdSubscriptions, MdSell, MdMovie } from "react-icons/md";
-import { GiCookingPot, GiWeightLiftingUp, GiLightBulb } from "react-icons/gi";
-
-import {
-  FaMusic,
-  FaGamepad,
-  FaTrophy,
-  FaNewspaper,
-  FaArtstation,
-  FaDollarSign,
-  FaCamera,
-  FaLaptop,
-  FaLaugh,
-} from "react-icons/fa";
-import { ImBooks, ImAirplane, ImFire } from "react-icons/im";
-import { HiShoppingBag } from "react-icons/hi2";
+import { Icons } from "../assets/icons";
 
 const Sidebar = ({ selectedCategory, setSelectedCategory }) => {
   const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
@@ -27,57 +11,58 @@ const Sidebar = ({ selectedCategory, setSelectedCategory }) => {
     {
       title: null,
       items: [
-        { name: "Home", icon: <AiFillHome /> },
-        { name: "Sports", icon: <FaTrophy /> },
-        { name: "Gaming", icon: <FaGamepad /> },
-        { name: "Live", icon: <AiOutlineFire /> },
+        { name: "All", icon: Icons.home },
+        { name: "Sports", icon: Icons.trophy },
+        { name: "Gaming", icon: Icons.gamepad },
+        { name: "Live", icon: Icons.flame },
       ],
     },
     {
       title: "Interest",
       items: [
-        { name: "Music", icon: <FaMusic /> },
-        { name: "Shopping", icon: <HiShoppingBag /> },
-        { name: "News", icon: <FaNewspaper /> },
-        { name: "Movies", icon: <MdMovie /> },
+        { name: "Music", icon: Icons.music },
+        { name: "Shopping", icon: Icons.shopping },
+        { name: "News", icon: Icons.newspaper },
+        { name: "Movies", icon: Icons.film },
       ],
     },
     {
       title: "Learning",
       items: [
-        { name: "Course", icon: <MdSell /> },
-        { name: "Trending", icon: <ImFire /> },
-        { name: "Art", icon: <FaArtstation /> },
-        { name: "Tech", icon: <FaLaptop /> },
+        { name: "Course", icon: Icons.book },
+        { name: "Trending", icon: Icons.trending },
+        { name: "Art", icon: Icons.palette },
+        { name: "Tech", icon: Icons.laptop },
       ],
     },
     {
       title: "Daily Life",
       items: [
-        { name: "Comedy", icon: <FaLaugh /> },
-        { name: "Fitness", icon: <FaTrophy /> },
-        { name: "Travel", icon: <ImAirplane /> },
-        { name: "Cooking", icon: <GiCookingPot /> },
+        { name: "Comedy", icon: Icons.laugh },
+        { name: "Fitness", icon: Icons.dumbbell },
+        { name: "Travel", icon: Icons.plane },
+        { name: "Cooking", icon: Icons.utensils },
       ],
     },
-
     {
       title: "Updates",
       items: [
-        { name: "Motivation", icon: <GiLightBulb /> },
-        { name: "Photography", icon: <FaCamera /> },
-        { name: "Health", icon: <GiWeightLiftingUp /> },
-        { name: "Finance", icon: <FaDollarSign /> },
+        { name: "Motivation", icon: Icons.lightbulb },
+        { name: "Photography", icon: Icons.camera },
+        { name: "Health", icon: Icons.dumbbell },
+        { name: "Finance", icon: Icons.wallet },
       ],
     },
   ];
 
   return (
-    <div className=" sticky top-0 h-screen w-52 p-4  shadow-sm shadow-gray-300 overflow-y-auto">
+    <div className="sticky top-0 h-screen w-36 sm:w-44 md:w-52 p-4 shadow-sm shadow-gray-300 overflow-y-auto bg-white">
       {menuSections.map((section, idx) => (
         <div key={idx} className="mb-4">
           {section.title && (
-            <h1 className="font-bold pt-4 text-gray-700">{section.title}</h1>
+            <h1 className="font-bold pt-4 text-gray-700 text-sm uppercase tracking-wide">
+              {section.title}
+            </h1>
           )}
           <ul>
             {section.items.map((item, i) => {
@@ -85,8 +70,8 @@ const Sidebar = ({ selectedCategory, setSelectedCategory }) => {
               return (
                 <li
                   key={i}
-                  className={`flex items-center hover:bg-slate-200 gap-2 py-2 px-2 rounded-md cursor-pointer ${
-                    isActive ? "font-bold bg-gray-100" : ""
+                  className={`flex items-center hover:bg-gray-100 gap-2 py-2 px-2 rounded-md cursor-pointer transition-all duration-200 ${
+                    isActive ? "font-semibold bg-gray-100 text-blue-500" : ""
                   }`}
                   onClick={() => setSelectedCategory(item.name)}
                 >
@@ -94,12 +79,12 @@ const Sidebar = ({ selectedCategory, setSelectedCategory }) => {
                   {item.path ? (
                     <Link
                       to={item.path}
-                      className={isActive ? "font-bold text-amber-500" : ""}
+                      className={isActive ? "text-blue-500" : "text-gray-800"}
                     >
                       {item.name}
                     </Link>
                   ) : (
-                    item.name
+                    <span className="text-gray-700">{item.name}</span>
                   )}
                 </li>
               );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   ShimmerThumbnail,
   ShimmerTitle,
@@ -7,50 +7,55 @@ import {
 
 const ShimmerWatchPage = () => {
   return (
-    <div className="flex flex-col w-full bg-gray-100 min-h-screen animate-pulse">
-      {/* Video and Chat */}
-      <div className="flex px-5 py-4">
-        <div className="p-2">
-          <ShimmerThumbnail height={650} width={1300} rounded />
+    <div
+      className="flex flex-col w-full min-h-screen bg-gray-50 animate-pulse"
+      aria-busy="true"
+      aria-label="Loading video page"
+    >
+      {/* ▶️ Video Player + Live Chat */}
+      <section className="flex flex-wrap gap-4 px-5 py-6">
+        {/* Video Placeholder */}
+        <div className="flex-shrink-0">
+          <ShimmerThumbnail height={650} width={1280} rounded />
         </div>
-        <div className="w-full max-w-full rounded-2xl ml-4 bg-white shadow p-4">
-          <ShimmerTitle line={1} gap={10} />
-          <div className="mt-4 space-y-2">
-            <ShimmerText line={5} gap={8} />
-          </div>
-        </div>
-      </div>
 
-      {/* Video Info */}
-      <div className="p-2 px-5 ml-3 w-[1300px] space-y-4">
-        <div className="bg-white shadow-md rounded-md p-3">
+        {/* Chat Panel Placeholder */}
+        <aside className="flex-1 min-w-[350px] bg-white shadow-md rounded-2xl p-4 space-y-4">
+          <ShimmerTitle line={1} gap={12} />
+          <ShimmerText line={5} gap={10} />
+        </aside>
+      </section>
+
+      {/* 📄 Video Info Section */}
+      <section className="w-full max-w-[1280px] mx-auto px-5 space-y-6">
+        {/* Video Meta Info */}
+        <div className="bg-white shadow-sm rounded-xl p-5 space-y-3">
           <ShimmerTitle line={1} gap={10} />
-          <ShimmerText line={2} gap={10} />
+          <ShimmerText line={2} gap={8} />
         </div>
 
         {/* Channel Info */}
-        <div className="flex items-center justify-between bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+        <div className="flex justify-between items-center bg-white shadow-sm border border-gray-100 rounded-xl p-5">
           <div className="flex items-center gap-4">
-            {/* Custom shimmer circle for profile */}
-            <div className="w-12 h-12 rounded-full bg-gray-300 animate-pulse"></div>
-            <div>
+            <div className="w-12 h-12 rounded-full bg-gray-300" />
+            <div className="space-y-1">
               <ShimmerTitle line={1} gap={5} />
               <ShimmerText line={1} gap={5} />
             </div>
           </div>
-          <div className="w-32 h-10 bg-gray-300 rounded-full"></div>
+          <div className="w-28 h-10 bg-gray-300 rounded-full" />
         </div>
-      </div>
+      </section>
 
-      {/* Comments */}
-      <div className="px-5 mt-2 w-[1300px] space-y-3">
+      {/* 💬 Comments Section */}
+      <section className="w-full max-w-[1280px] mx-auto px-5 mt-6 space-y-5">
         <ShimmerTitle line={1} gap={10} />
-        <ShimmerText line={3} gap={10} />
-        <ShimmerText line={3} gap={10} />
-        <ShimmerText line={3} gap={10} />
-      </div>
+        {[...Array(3)].map((_, i) => (
+          <ShimmerText key={i} line={3} gap={8} />
+        ))}
+      </section>
     </div>
   );
 };
 
-export default ShimmerWatchPage;
+export default memo(ShimmerWatchPage);

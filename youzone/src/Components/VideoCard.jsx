@@ -7,13 +7,15 @@ const VideoCard = ({ info }) => {
 
   return (
     <div
-      className="p-2 mb-2 rounded-md hover:scale-105 w-[400px] cursor-pointer 
-  transform transition-transform duration-300 ease-in-out hover:bg-slate-100"
+      className="p-2 mb-2 rounded-md hover:scale-105 cursor-pointer 
+  transform transition-transform duration-300 ease-in-out hover:bg-slate-100 w-full"
     >
       {/* Thumbnail Section */}
       <div className="relative w-full aspect-video mb-3 rounded-md overflow-hidden">
         <img
           src={thumbnails?.medium?.url}
+          decoding="async"
+          loading="lazy"
           alt={title}
           className="w-full h-full object-cover"
         />
@@ -40,12 +42,10 @@ const VideoCard = ({ info }) => {
 
         {/* Video Info */}
         <div className="flex flex-col flex-1">
-          {/* Title */}
           <p className="font-semibold text-[15px] text-gray-900 leading-snug line-clamp-2">
             {title}
           </p>
 
-          {/* Channel name & views */}
           <div className="mt-1 space-y-0.5">
             <p className="text-sm text-gray-700 font-medium">{channelTitle}</p>
             <p className="text-sm text-gray-500">

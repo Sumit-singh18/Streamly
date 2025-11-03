@@ -44,15 +44,17 @@ const SearchResults = () => {
     /* <h2 className="text-xl font-semibold mb-4">Results for "{query}"</h2> */
   }
   return (
-    <div className="flex flex-col  gap-5 w-full item-center  p-4">
+    <div className="flex flex-col items-center gap-6 w-full p-4 bg-gray-50 min-h-screen">
       {videos.map((video) => (
         <Link
           key={video.id.videoId}
           to={`/watch?V=${video.id.videoId}`}
-          className=" flex flex-col mx-auto sm:flex-row bg-white w-2/3  rounded-xl drop-shadow-lg hover:bg-slate-100 overflow-hidden hover:shadow-lg transition"
+          className="flex flex-col sm:flex-row bg-white w-full sm:w-4/5 md:w-3/4 lg:w-2/3 
+                 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 
+                 hover:bg-slate-100 overflow-hidden"
         >
           {/* Thumbnail */}
-          <div className="relative w-full sm:w-72 h-44 flex-shrink-0">
+          <div className="relative w-full sm:w-72 h-48 flex-shrink-0">
             <img
               src={video.snippet.thumbnails.medium.url}
               alt={video.snippet.title}
@@ -61,9 +63,9 @@ const SearchResults = () => {
           </div>
 
           {/* Info */}
-          <div className="p-4 flex flex-col justify-between sm:flex-1">
+          <div className="p-4 flex flex-col justify-between flex-1">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-1 hover:text-blue-600">
+              <h3 className="text-lg font-semibold text-gray-900 mb-1 hover:text-blue-600 line-clamp-2">
                 {video.snippet.title}
               </h3>
               <p className="text-sm text-gray-600 mb-2">

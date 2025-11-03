@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Youtubeicon from "../assets/youtube-svgrepo-com.svg";
-import UserProfile from "../assets/user_profile.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../Utils/appSlice";
 import { Link, useNavigate } from "react-router-dom";
@@ -22,15 +21,21 @@ const Head = () => {
       setShowSuggestions(false);
     }
   };
+
   const getSearchSuggestions = async () => {
-    const data = await fetch(`${YOUTUBE_SEARCH_API}${searchQuery}`);
-    const json = await data.json();
-    setSuggestions(json[1]);
-    dispatch(CacheSearchQuery({ [searchQuery]: json[1] }));
+    try {
+      const data = await fetch(`${YOUTUBE_SEARCH_API}${searchQuery}`);
+      const json = await data.json();
+      setSuggestions(json[1]);
+      dispatch(CacheSearchQuery({ [searchQuery]: json[1] }));
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
   };
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      if (searchQuery.trim() === "") return;
       if (searchCache[searchQuery]) setSuggestions(searchCache[searchQuery]);
       else getSearchSuggestions();
     }, 200);
@@ -38,16 +43,16 @@ const Head = () => {
   }, [searchQuery]);
 
   return (
-    <div className="flex justify-between items-center p-2 shadow-md px-6 bg-white sticky top-0 z-50">
+    <header className="flex flex-col sm:flex-row justify-between items-center p-2 sm:p-3 shadow-md bg-white sticky top-0 z-50 gap-3 sm:gap-0">
       {/* Left Section */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-start">
         <svg
           onClick={() => dispatch(toggleMenu())}
           className="cursor-pointer hover:scale-110 transition-transform duration-200"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 50 50"
-          width="28"
-          height="28"
+          width="26"
+          height="26"
           fill="#333"
         >
           <path d="M0 7.5h50v5H0zm0 15h50v5H0zm0 15h50v5H0z"></path>
@@ -57,32 +62,35 @@ const Head = () => {
           <img
             src={Youtubeicon}
             alt="YouTube icon"
-            className="w-9 h-9 object-contain"
+            className="w-8 h-8 sm:w-9 sm:h-9 object-contain"
           />
+          <span className="font-bold text-lg hidden sm:block">Streamly</span>
         </Link>
       </div>
 
-      {/* Searchbar Section */}
-      <div className="relative flex items-center">
-        <input
-          type="text"
-          className="w-[500px] font-medium rounded-l-2xl border border-gray-300 p-2 focus:outline-none focus:ring-0 focus:border-gray-400"
-          placeholder="Search"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onFocus={() => setShowSuggestions(true)}
-          onBlur={() => setShowSuggestions(false)}
-          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-        />
+      {/* Search Section */}
+      <div className="relative w-full sm:w-auto flex justify-center">
+        <div className="flex items-center w-full sm:w-[400px] md:w-[500px]">
+          <input
+            type="text"
+            className="flex-1 rounded-l-2xl border border-gray-300 p-2 text-sm sm:text-base focus:outline-none focus:ring-0 focus:border-gray-400"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setShowSuggestions(false)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          />
+          <button
+            onClick={handleSearch}
+            className="hover:bg-gray-300 bg-gray-200 p-2 rounded-r-2xl border border-gray-300"
+          >
+            🔍
+          </button>
+        </div>
 
-        <button
-          onClick={handleSearch}
-          className="hover:bg-gray-300 bg-gray-200 p-2 rounded-r-2xl border border-gray-300 font"
-        >
-          Search
-        </button>
-        {showSuggestions && (
-          <div className="absolute top-full left-0 right-0 bg-white rounded-md shadow-lg mt-1 text-left z-10">
+        {showSuggestions && suggestions.length > 0 && (
+          <div className="absolute top-full left-0 right-0 bg-white rounded-md shadow-lg mt-1 text-left z-10 max-h-60 overflow-y-auto">
             <ul>
               {suggestions.map((s) => (
                 <li
@@ -112,7 +120,7 @@ const Head = () => {
           </div>
         )}
       </div>
-    </div>
+    </header>
   );
 };
 
